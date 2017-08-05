@@ -4,8 +4,6 @@ include('includes/database.php');
 
 session_start();
 
-ini_set('session.gc_maxlifetime', 1440);
-
 $accesscode = $_POST['accesscode'];
 $accesscode = stripslashes($accesscode);
 $accesscode = mysqli_real_escape_string($connection, $accesscode);
@@ -13,9 +11,10 @@ $accesscode = mysqli_real_escape_string($connection, $accesscode);
 $errors = array();
 
 $sql = mysqli_query($connection, "SELECT * FROM QUEUE WHERE ACCESS_CODE = '$accesscode'");
+$sqlrow = mysqli_fetch_assoc($sql);
 $rows = mysqli_num_rows($sql);
 
-if ($rows == 1) {
+if ($rows == 1 && $sqlrow['STATUS']!='finished') {
     $_SESSION['login_user'] = $accesscode; // Initializing Session
     $_SESSION['LAST_ACTIVITY'] = time();
     header("location: queueInfo.php");     // Redirecting To Other Page
