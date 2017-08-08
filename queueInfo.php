@@ -1,8 +1,6 @@
 <?php
     include('includes/database.php');
     
-    echo "Session started";
-    
     session_start();
     
     if (isset($_SESSION['LAST_ACTIVITY']) && (time() - $_SESSION['LAST_ACTIVITY'] > 3600)) {
@@ -24,6 +22,7 @@
     $queueNumber = $row['ID'];
     $positionstatus = $row['STATUS'];
     
+    $time = time();
     //check status upon logging in
     
     $id = $row['ID'];
@@ -67,27 +66,48 @@
 
 <!DOCTYPE html>
 <html>
-    <head>
-        <title>Next Queue Info</title>
-        <link href="style.css" rel="stylesheet" type="text/css">
-    </head>
-    <body>
-        <center><div id="profile">
-        <b id="welcome">People infront of you: </b><?php echo $position; ?><br />
-        <b id="welcome">Ticket obtained at: </b><?php echo $created; ?><br />
-        <b id="welcome">QueueID: </b><?php echo $queueNumber, $queueid; ?><br />
+  <?php $page_title = "Welcome"; include("includes/head.php");?>
+  <body>
+    <div class="header">
+      <div class="container">
+        <div class="logo">
+          <a href="#"><img src="images/logo.png"></a>
         </div>
-        <div class="btn-group btn-group-lg" role="group" aria-label="...">
-            <form method="POST" action=''>
-                <input type="submit" name="cancel"  value="Cancel">
+        <div class="logout">
+            <form action="queuelogout.php">
+              <button type="submit" class="btn btn-default btn-sm">
+                <span class="glyphicon glyphicon-log-out"></span> Log out
+              </button>
             </form>
-            <form method="POST" action=''>
-                <input type="submit" name="hold"  value=<?php echo $positionoption?>>
-            </form>
-            <form action='queuelogout.php'>
-                <input type="submit" name="logout"  value="Logout">
-            </form>
+          <!--<a href="#"><img src="logout.png"></a>-->
         </div>
-        </center>
-    </body>
+      </div>
+    </div>
+      <div class="content">
+        <p class="bottomborder"><b>You are now in line</b></p><br />
+        <p class="bottomborder"><b>Your Queue Number:</b> <?php echo $queueNumber, $queueid; ?></p>
+        <p class="bottomborder"></p><br />
+        <p><b>People Ahead of You: </b> <?php echo $position; ?> </p>
+        <p><b>Expected Time: </b> NA</p><br />
+        <p class="bottomborder"></p>
+        <div class="flexcontainer">
+          <div class="buttoncontainer">
+            <form method="POST" class="buttonflex">
+              <input type="submit" name="cancel" class="btn btn-primary btn-block" value="Cancel">
+            </form>
+            <form method="POST" class="buttonflex">
+              <input type="submit" name="hold" class="btn btn-primary buttonflex btn-block" value=<?php echo $positionoption; ?>>
+            </form>
+          </div><br />
+        </div>
+        <p class="bottomborder"></p>
+        <p><b>Thank You For Your Patience</b></p>
+        <p><b>Last Updated:</b> <?php echo date("d-m-Y h:i:s", $time); ?></p>
+        <div>
+          <form action="queueInfo.php">
+            <input type="submit" name="reload" class="btn btn-primary" value="Reload">
+          </form>
+        </div><br />
+      </div>
+  </body>
 </html>
