@@ -24,8 +24,12 @@ body {
 }
 .content{
   font-family: "helvetica";
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
   text-align: center;
   width: 100%;
+  height:auto;
   margin: 0 auto;
 }
 p.bottomborder{
@@ -41,7 +45,6 @@ p.bottomborder{
   justify-content:left;
 }
 .logo{
-  margin-top: 5px;
   float: Left;
 }
 .logo img{
@@ -59,6 +62,13 @@ p.bottomborder{
   align-items: center;
   justify-content: center;
   margin-bottom: 10px;
+}
+.contentbox{
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  text-align: center;
+  width: 100%;
 }
 .buttoncontainer {
   display: flex;

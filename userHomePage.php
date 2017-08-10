@@ -20,7 +20,6 @@ $sqlquery = "SELECT QUEUE.ID, QUEUE.QUEUE_ID FROM QUEUE INNER JOIN users ON QUEU
 $result = $connection->query($sqlquery);
 
 if($result->num_rows>0){
-    echo "HELLO";
     $row = mysqli_fetch_assoc($result);
     $currenticketID = $row['ID'];
     $currentqueueID = $row['QUEUE_ID'];
@@ -44,21 +43,27 @@ mysqli_close($connection);
                 <ul>
                     <li><a href="userHomePage.php">Home</a></li>
                     <li><a href="userlogout.php">My Queue</a></li>
-                    <li><a href="userlogout.php">HelpHelpHelp</a></li>
+                    <li><a href="userlogout.php">Help</a></li>
                     <li><a href="userLogout.php">Logout</a></li>
                 </ul>
             </div>
         </div>
-        <div class="content">
-            <center><b>Current Ticket: </b><?php echo $currenticketID, $currentqueueID;?></center>
-            <div class="flexcontainer">
-                <div class="buttoncontainer">
-                    <form method="POST" class="buttonflex">
-                        <button class="btn btn-primary btn-block" type="submit" name="finished" value="">Finished</button>
-                    </form>
-                    <form method="POST"class="buttonflex">
-                        <button class="btn btn-primary btn-block" type="submit">Next</button>
-                    </form>
+        <div class="container">
+            <div class="content">
+                <div class="contentbox">
+                    <p><b>Current Ticket: </b><?php echo $currenticketID, $currentqueueID;?> </p>
+                    <p><b>Next Ticket: </b><?php echo $currenticketID, $currentqueueID;?></p>
+                </div>
+                
+                <div class="flexcontainer">
+                    <div class="buttoncontainer">
+                        <form method="POST" class="buttonflex">
+                            <button class="btn btn-primary btn-block" type="submit" name="finished" value="">Finished</button>
+                        </form>
+                        <form method="POST"class="buttonflex">
+                            <button class="btn btn-primary btn-block" type="submit">Next</button>
+                        </form>
+                    </div>
                 </div>
             </div>
         </div>

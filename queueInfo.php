@@ -22,6 +22,10 @@
     $queueNumber = $row['ID'];
     $positionstatus = $row['STATUS'];
     
+    //If they are finished, log them out and end session
+    if($positionstatus == 'finished'){
+        header('Location: queuelogout.php');
+    }
     $time = time();
     //check status upon logging in
     
@@ -31,12 +35,19 @@
     $row = mysqli_fetch_assoc($ses_sql);
     
     $position = $row['POSITION'];
-    
+    $patronstatus = "You are now in line";
     if($positionstatus == 'waiting'){
         $positionoption = "Hold";
-    }else{
+    }else if($positionstatus=='hold'){
+        $holdcheck = true;
         $position = "ON HOLD";
         $positionoption = "Resume";
+        $patronstatus = "You are on hold at position: ";
+    }else if($positionstatus == 'active'){
+        $activecheck = true;
+        $positionoption = "Hold";
+        $position = "NA";
+        $patronstatus = "Your turn please attend register: ";
     }
     
     //if user cancels their position
@@ -48,12 +59,16 @@
     
     if($_POST['hold'] && $positionstatus=="waiting"){
         $cancelQuery = mysqli_query($connection, "UPDATE QUEUE SET STATUS = 'hold' WHERE ID='$id'");
-        $position = "ON HOLD";
+        $patronstatus = "You are on hold at position: ";
         $positionoption = "Resume";
+        $holdcheck = true;
+        $position = "ON HOLD";
     }else if($_POST['hold'] && $positionstatus=="hold"){
         $cancelQuery = mysqli_query($connection, "UPDATE QUEUE SET STATUS = 'waiting' WHERE ID='$id'");
         $positionoption = "Hold";
+        $holdcheck = false;
         $position = $row['POSITION'];
+        $patronstatus = "You are now in line";
     }
     
     
@@ -66,7 +81,17 @@
 
 <!DOCTYPE html>
 <html>
-  <?php $page_title = "Welcome"; include("includes/head.php");?>
+  <head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1" http-equiv="refresh" content="5">
+    <title><?php echo $page_title;?></title>
+    
+    <link rel="stylesheet" href="components/bootstrap/dist/css/bootstrap.css">
+    <link rel="stylesheet" type="text/css" href="includes/mystyle.css">
+    
+    <script src="components/jquery/dist/jquery.js"></script>
+    <script src="components/bootstrap/dist/js/bootstrap.js"></script>
+</head>
+  
   <body>
     <div class="header">
       <div class="container">
@@ -83,8 +108,19 @@
         </div>
       </div>
     </div>
+      <script language="javascript">
+          setTimeout(function(){
+              window.location.reload(1);
+            }, 7000);
+      </script>
       <div class="content">
-        <p class="bottomborder"><b>You are now in line</b></p><br />
+        <p class="bottomborder"><b><?php echo $patronstatus?></b> 
+        <?php if($holdcheck){
+          echo $queueNumber;
+        }else if($activecheck){
+          echo $queueid;
+        }?>
+          </p><br />
         <p class="bottomborder"><b>Your Queue Number:</b> <?php echo $queueNumber, $queueid; ?></p>
         <p class="bottomborder"></p><br />
         <p><b>People Ahead of You: </b> <?php echo $position; ?> </p>
