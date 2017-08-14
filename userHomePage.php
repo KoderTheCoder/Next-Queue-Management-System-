@@ -24,6 +24,12 @@ if($result->num_rows>0){
     $currenticketID = $row['ID'];
     $currentqueueID = $row['QUEUE_ID'];
     $connection->query("UPDATE QUEUE SET STATUS = 'active' WHERE ID='$currenticketID'");
+    
+    $sqlquery = "SELECT QUEUE.ID, QUEUE.QUEUE_ID FROM QUEUE INNER JOIN users ON QUEUE.QUEUE_ID = users.queue_id WHERE users.username = '$username' AND (QUEUE.STATUS = 'waiting') LIMIT 1;";
+    $result = $connection->query($sqlquery);
+    $row = mysqli_fetch_assoc($result);
+    $nexticketID = $row['ID'];
+    $nextqueueID = $row['QUEUE_ID'];
 }else{
     $currenticketID = "Queue is empty";
 }
@@ -52,7 +58,7 @@ mysqli_close($connection);
             <div class="content">
                 <div class="contentbox">
                     <p><b>Current Ticket: </b><?php echo $currenticketID, $currentqueueID;?> </p>
-                    <p><b>Next Ticket: </b><?php echo $currenticketID, $currentqueueID;?></p>
+                    <p><b>Next Ticket: </b><?php echo $nexticketID, $nextqueueID;?></p>
                 </div>
                 
                 <div class="flexcontainer">
