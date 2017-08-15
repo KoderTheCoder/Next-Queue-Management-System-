@@ -63,7 +63,7 @@ else{
                                 }
                                 echo "<div class=\"col-lg-4\">
                                         <label class=\"radio-inline\">
-                                            <input type=\"radio\" name=\"inlineRadioOptions\" value=$id> $name
+                                            <h3><input type=\"radio\" name=\"inlineRadioOptions\" value=$id> $name</h3>
                                         </label>
                                     </div>";
                                 $counter++;
@@ -73,7 +73,7 @@ else{
                         ?>
                 </div>
                 <div class="row rowcenterbutton">
-                    <b><input name="submit" class="btn btn-primary" type="submit" value=" Get Ticket "></b><br /><br />
+                    <b><input name="submit" class="btn btn-primary btn-lg" type="submit" value=" Get Ticket "></b><br /><br />
                 </div>
                 </form>
             </div>
