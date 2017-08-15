@@ -19,6 +19,7 @@ if(isset($_POST['user'])){
         if($dbpassword==$password){
             $_SESSION['username'] = $user;
             $_SESSION['password'] = $password;
+            $_SESSION['level'] = $userdata["user_level"];
             header("Location: userHomePage.php");
         }else{
             $error = "Username or password is incorrect";

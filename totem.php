@@ -73,7 +73,7 @@ else{
                         ?>
                 </div>
                 <div class="row rowcenterbutton">
-                    <b><input name="submit" class="btn btn-primary btn-lg" type="submit" value=" Get Ticket "></b><br /><br />
+                    <b><input name="submit" class="btn btn-primary btn-lg" type="submit" value="Get Ticket" data-toggle="modal" data-target="#myModal"></b><br /><br />
                 </div>
                 </form>
             </div>

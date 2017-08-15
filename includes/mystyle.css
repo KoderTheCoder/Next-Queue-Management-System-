@@ -34,6 +34,11 @@ body {
   display: flex;
   align-items: center;
 }
+.myQueue{
+  display: flex;
+  justify-content:center;
+  align-items: center;
+}
 .totemheader{
   width: 100%;
   height:150px;

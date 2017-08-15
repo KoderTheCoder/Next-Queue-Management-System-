@@ -6,6 +6,7 @@ if(!isset($_SESSION['username']) || !isset($_SESSION['password'])){
     header("Location: userLogout.php");
 }
 else{
+    $userlevel = $_SESSION["level"];
     $username = $_SESSION['username'];
 }
 
@@ -31,7 +32,7 @@ if($result->num_rows>0){
     $nexticketID = $row['ID'];
     $nextqueueID = $row['QUEUE_ID'];
 }else{
-    $currenticketID = "Queue is empty";
+    $currenticketID = "NA";
 }
 
 mysqli_close($connection);
@@ -48,13 +49,23 @@ mysqli_close($connection);
             <div class="nav">
                 <ul>
                     <li><a href="userHomePage.php">Home</a></li>
-                    <li><a href="userlogout.php">My Queue</a></li>
-                    <li><a href="userlogout.php">Help</a></li>
+                    <?php
+                        if($userlevel==1){
+                            echo "<li class=\"dropdown\">
+                                      <a href=\"#\" class=\"dropdown-toggle\" data-toggle=\"dropdown\" role=\"button\" aria-haspopup=\"true\" aria-expanded=\"false\">Manage<span class=\"caret\"></span></a>
+                                      <ul class=\"dropdown-menu\">
+                                        <li><a href=\"#\">Manage Users</a></li>
+                                        <li><a href=\"#\">Manage Queues</a></li>
+                                      </ul>
+                                    </li>";
+                        }
+                    ?>
+                    <li><a href="myQueue.php">My Queue</a></li>
                     <li><a href="userLogout.php">Logout</a></li>
                 </ul>
             </div>
         </div>
-        <div class="container">
+        <div class="container rowcenter">
             <div class="content">
                 <div class="contentbox">
                     <p><b>Current Ticket: </b><?php echo $currenticketID, $currentqueueID;?> </p>
@@ -67,7 +78,7 @@ mysqli_close($connection);
                             <button class="btn btn-primary btn-block" type="submit" name="finished" value="">Finished</button>
                         </form>
                         <form method="POST"class="buttonflex">
-                            <button class="btn btn-primary btn-block" type="submit">Next</button>
+                            <button class="btn btn-primary btn-block" type="submit" name="next" value="">Next</button>
                         </form>
                     </div>
                 </div>
