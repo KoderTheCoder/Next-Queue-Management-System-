@@ -42,29 +42,7 @@ mysqli_close($connection);
 <html>
     <?php include("includes/head.php");?>
     <body>
-        <div class="header">
-            <div class="logo">
-                <img src="images/logo.png"></img>
-            </div>
-            <div class="nav">
-                <ul>
-                    <li><a href="userHomePage.php">Home</a></li>
-                    <?php
-                        if($userlevel==1){
-                            echo "<li class=\"dropdown\">
-                                      <a href=\"#\" class=\"dropdown-toggle\" data-toggle=\"dropdown\" role=\"button\" aria-haspopup=\"true\" aria-expanded=\"false\">Manage<span class=\"caret\"></span></a>
-                                      <ul class=\"dropdown-menu\">
-                                        <li><a href=\"#\">Manage Users</a></li>
-                                        <li><a href=\"#\">Manage Queues</a></li>
-                                      </ul>
-                                    </li>";
-                        }
-                    ?>
-                    <li><a href="myQueue.php">My Queue</a></li>
-                    <li><a href="userLogout.php">Logout</a></li>
-                </ul>
-            </div>
-        </div>
+        <?php include("includes/nav.php"); ?>
         <div class="container rowcenter">
             <div class="content">
                 <div class="contentbox">
