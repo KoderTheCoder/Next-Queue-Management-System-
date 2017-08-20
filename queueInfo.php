@@ -2,7 +2,7 @@
     include('includes/database.php');
     
     session_start();
-    
+    //set the session timeout
     if (isset($_SESSION['LAST_ACTIVITY']) && (time() - $_SESSION['LAST_ACTIVITY'] > 3600)) {
     // last request was more than 30 minutes ago
     session_unset();     // unset $_SESSION variable for the run-time 
@@ -34,8 +34,9 @@
     $ses_sql = mysqli_query($connection, "SELECT COUNT(*) AS POSITION FROM QUEUE WHERE ID<'$id' AND STATUS='waiting' AND QUEUE_ID = '$queueid'");
     $row = mysqli_fetch_assoc($ses_sql);
     
-    $position = $row['POSITION'];
-    $patronstatus = "You are now in line";
+    $position = $row['POSITION']; //Stores the amount of people ahead in the queue
+    $patronstatus = "You are now in line"; 
+    
     if($positionstatus == 'waiting'){
         $positionoption = "Hold";
     }else if($positionstatus=='hold'){
@@ -56,9 +57,9 @@
         header('Location: queuelogout.php');
     }
     
-    
+    //This code executes when the patron presses the hold/resume button
     if($_POST['hold'] && $positionstatus=="waiting"){
-        $cancelQuery = mysqli_query($connection, "UPDATE QUEUE SET STATUS = 'hold' WHERE ID='$id'");
+        $cancelQuery = mysqli_query($connection, "UPDATE QUEUE SET STATUS = 'hold' WHERE ID='$id'"); //Changes the status for this position
         $patronstatus = "You are on hold at position: ";
         $positionoption = "Resume";
         $holdcheck = true;
@@ -71,10 +72,9 @@
         $patronstatus = "You are now in line";
     }
     
-    
-        if(!isset($position)){
-        mysql_close($connection);       // Closing Connection
-        header('Location: index.php');  // Redirecting To Home Page
+    //Check to make sure there is no missing data, otherwise log them out and end session
+        if(!isset($position) && $positionoption){
+        header("Location:queuelogout.php");
     }
     
 ?>
@@ -107,7 +107,7 @@
       <div class="content">
         <p class="bottomborder"><b><?php echo $patronstatus?></b> 
         <?php if($holdcheck){
-          echo $queueNumber;
+          echo $position;
         }else if($activecheck){
           echo $queueid;
         }?>

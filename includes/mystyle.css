@@ -10,7 +10,7 @@ body {
   margin: 0;
   background-repeat: no-repeat;
   background-attachment: fixed;
-  background: linear-gradient(#d17506, white); /* Standard syntax (must be last) */
+  background: linear-gradient(#d17506, white);
 }
 .rowcenter{
   display: flex;
@@ -130,7 +130,15 @@ li {
   float: right;
 }
 
-
+th{
+  width:140px;
+}
+td.td-center{
+  text-align: center;
+}
+.selectid{
+  width: 125px;
+}
 
 @media only screen and (max-width: 500px) {
   .header { text-align: center; position: relative; width: 100%; height: 120px;}

@@ -20,7 +20,7 @@ if(isset($_POST['finished'])){
 $sqlquery = "SELECT QUEUE.ID, QUEUE.QUEUE_ID FROM QUEUE INNER JOIN users ON QUEUE.QUEUE_ID = users.queue_id WHERE users.username = '$username' AND (QUEUE.STATUS = 'waiting' OR QUEUE.STATUS='active') LIMIT 1;";
 $result = $connection->query($sqlquery);
 
-if($result->num_rows>0){
+if($result->num_rows>0 && isset($_POST['next'])){
     $row = mysqli_fetch_assoc($result);
     $currenticketID = $row['ID'];
     $currentqueueID = $row['QUEUE_ID'];
@@ -32,6 +32,11 @@ if($result->num_rows>0){
     $nexticketID = $row['ID'];
     $nextqueueID = $row['QUEUE_ID'];
 }else{
+    $sqlquery = "SELECT QUEUE.ID, QUEUE.QUEUE_ID FROM QUEUE INNER JOIN users ON QUEUE.QUEUE_ID = users.queue_id WHERE users.username = '$username' AND (QUEUE.STATUS = 'waiting') LIMIT 1;";
+    $result = $connection->query($sqlquery);
+    $row = mysqli_fetch_assoc($result);
+    $nexticketID = $row['ID'];
+    $nextqueueID = $row['QUEUE_ID'];
     $currenticketID = "NA";
 }
 
@@ -42,8 +47,8 @@ mysqli_close($connection);
 <html>
     <?php include("includes/head.php");?>
     <body>
-        <?php include("includes/nav.php"); ?>
-        <div class="container rowcenter">
+        <div class="container">
+            <?php include("includes/nav.php"); ?>
             <div class="content">
                 <div class="contentbox">
                     <p><b>Current Ticket: </b><?php echo $currenticketID, $currentqueueID;?> </p>

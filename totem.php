@@ -79,6 +79,13 @@ else{
             </div>
             
         </div>
+        <center><div>
+                <b>Your Access code: </b><?php echo $ticketCode; ?><br />
+                <b>Your Position: </b><?php echo $ticketId; ?><br />
+                <b>Ticket obtained at: </b><?php echo $ticketCreated; ?><br />
+                <b>QueueID: </b><?php echo $ticketId, $ticketQueueId; ?><br />
+            </div>
+            </center>
     </body>
 </html>
             <!--<form action="" method="post">
