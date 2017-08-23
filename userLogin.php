@@ -19,7 +19,10 @@ if(isset($_POST['user'])){
         if($dbpassword==$password){
             $_SESSION['username'] = $user;
             $_SESSION['password'] = $password;
+            $_SESSION['user_id'] = $userdata['user_id'];
             $_SESSION['level'] = $userdata["user_level"];
+            $sqlupdate = "UPDATE users SET logged_in=TRUE WHERE username='$user'";
+            mysqli_query($connection, $sqlupdate);
             header("Location: userHomePage.php");
         }else{
             $error = "Username or password is incorrect";

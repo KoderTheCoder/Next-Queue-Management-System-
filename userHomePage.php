@@ -20,11 +20,14 @@ if(isset($_POST['finished'])){
 $sqlquery = "SELECT QUEUE.ID, QUEUE.QUEUE_ID FROM QUEUE INNER JOIN users ON QUEUE.QUEUE_ID = users.queue_id WHERE users.username = '$username' AND (QUEUE.STATUS = 'waiting' OR QUEUE.STATUS='active') LIMIT 1;";
 $result = $connection->query($sqlquery);
 
+
+//when next is pressed
 if($result->num_rows>0 && isset($_POST['next'])){
+    $operatorID = $_SESSION['user_id'];
     $row = mysqli_fetch_assoc($result);
     $currenticketID = $row['ID'];
     $currentqueueID = $row['QUEUE_ID'];
-    $connection->query("UPDATE QUEUE SET STATUS = 'active' WHERE ID='$currenticketID'");
+    $connection->query("UPDATE QUEUE SET STATUS = 'active', operator_id=$operatorID WHERE ID='$currenticketID'");
     
     $sqlquery = "SELECT QUEUE.ID, QUEUE.QUEUE_ID FROM QUEUE INNER JOIN users ON QUEUE.QUEUE_ID = users.queue_id WHERE users.username = '$username' AND (QUEUE.STATUS = 'waiting') LIMIT 1;";
     $result = $connection->query($sqlquery);
