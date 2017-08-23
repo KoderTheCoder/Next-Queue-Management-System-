@@ -4,7 +4,8 @@ include('includes/database.php');
 
 session_start();
 
-$accesscode = $_POST['accesscode'];
+$_SERVER['REQUEST_METHOD'] = 'GET';
+$accesscode = $_GET['accesscode'];
 $accesscode = stripslashes($accesscode);
 $accesscode = mysqli_real_escape_string($connection, $accesscode);
 
@@ -43,10 +44,10 @@ if(isset($_SESSION['login_user'])){
                       $accesscodeclass = "has-error";
                     }
                 ?>
-                <form action="" method="post" <?php echo $accesscodeclass;?>>
+                <form action="" method="GET" <?php echo $accesscodeclass;?>>
                     <label>Access Code :</label>
                     <input id="accesscode" name="accesscode" placeholder="access code" type="text">
-                    <input name="submit" type="submit" value=" Login ">
+                        <input name="submit" type="submit" value="Login">
                     <span><?php echo $error["accessCode"]; ?></span>
                 </form>
             </div>

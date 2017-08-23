@@ -1,8 +1,20 @@
 <?php
 include('includes/database.php');
 session_start();
+$_SERVER['REQUEST_METHOD'] = 'POST';
 
-$_SESSION["queueType"] = $_POST['inlineRadioOptions'];
+$queue_id1 = $_POST['queue_id'];
+if($queue_id1){
+    
+    $sqlinsert = "INSERT INTO QUEUE (ID, ACCESS_CODE, CREATED, QUEUE_ID, STATUS) VALUES (NULL, RAND()*1000, NULL, '$queue_id1', 'waiting')";
+
+    if($connection->query($sqlinsert) === true){
+        echo "Record successfully created";
+    }
+    else{
+        echo "Error: " . $sql . "<br>" . $conn->error;
+    }
+}
 
 $sqlquery = mysqli_query($connection, "SELECT * FROM QUEUE WHERE ID = (SELECT MAX(ID) FROM QUEUE)");
 $row = mysqli_fetch_assoc($sqlquery);
@@ -20,21 +32,12 @@ if($sqlquery->num_rows>0){
         array_push($queuenames, $row);
     }
 }
-
-if(isset($_SESSION["queueType"])){
-   header("location: totemTicket.php");
-}
-else{
-    echo "Queue type not set";
-}
-
 ?>
 
 <!DOCTYPE html>
 <html>
     <?php include("includes/head.php");?>
     <body>
-        
             <div class="totemheader">
                 <center>
                     <img class="totemlogo" src="images/logo.png">
@@ -43,7 +46,7 @@ else{
             <div class="container">
                 <div class="row rowcenter">
                     <div class="col-lg-12">
-                    <form action="" method="post">
+                    <form action="" method='POST'>
                     <?php
                         if(count($queuenames)>0){
                             $counter = 0;
@@ -63,7 +66,7 @@ else{
                                 }
                                 echo "<div class=\"col-lg-4\">
                                         <label class=\"radio-inline\">
-                                            <h3><input type=\"radio\" name=\"inlineRadioOptions\" value=$id> $name</h3>
+                                            <h3><input type=\"radio\" name=\"queue_id\" value=$id> $name</h3>
                                         </label>
                                     </div>";
                                 $counter++;
@@ -81,10 +84,10 @@ else{
         </div>
         <center><div>
                 <b>Your Access code: </b><?php echo $ticketCode; ?><br />
-                <b>Your Position: </b><?php echo $ticketId; ?><br />
                 <b>Ticket obtained at: </b><?php echo $ticketCreated; ?><br />
                 <b>QueueID: </b><?php echo $ticketId, $ticketQueueId; ?><br />
             </div>
+                <a rel='nofollow' href='http://www.qrcode-generator.de' border='0' style='cursor:default'></a><img src='https://chart.googleapis.com/chart?cht=qr&chl=https%3A%2F%2Fnext-koderthecoder.c9users.io/index.php?accesscode=<?php echo $ticketCode; ?>&submit=Login%2F&chs=180x180&choe=UTF-8&chld=L|2' alt=''>
             </center>
     </body>
 </html>

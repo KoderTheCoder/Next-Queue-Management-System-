@@ -2,7 +2,7 @@
 include("includes/database.php");
 
 session_start();
-
+$_SERVER['REQUEST_METHOD'] = 'POST';
 if(isset($_POST['user'])){
     $user = $_POST['user'];
     $password = $_POST['password'];

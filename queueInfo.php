@@ -2,6 +2,7 @@
     include('includes/database.php');
     
     session_start();
+    $_SERVER['REQUEST_METHOD'] = 'POST';
     //set the session timeout
     if (isset($_SESSION['LAST_ACTIVITY']) && (time() - $_SESSION['LAST_ACTIVITY'] > 3600)) {
     // last request was more than 30 minutes ago
