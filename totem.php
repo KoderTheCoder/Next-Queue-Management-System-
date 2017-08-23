@@ -36,7 +36,21 @@ if($sqlquery->num_rows>0){
 
 <!DOCTYPE html>
 <html>
-    <?php include("includes/head.php");?>
+    <head>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
+        <title><?php echo $page_title;?></title>
+        
+        <link rel="stylesheet" href="components/bootstrap/dist/css/bootstrap.css">
+        <link rel="stylesheet" type="text/css" href="includes/mystyle.css">
+        
+        <script src="components/jquery/dist/jquery.js"></script>
+        <script src="components/bootstrap/dist/js/bootstrap.js"></script>
+        <script type="text/javascript">
+            $(document).ready(function(){
+                $("#myModal").modal('show');
+            });
+        </script>
+    </head>
     <body>
             <div class="totemheader">
                 <center>
@@ -76,19 +90,39 @@ if($sqlquery->num_rows>0){
                         ?>
                 </div>
                 <div class="row rowcenterbutton">
-                    <b><input name="submit" class="btn btn-primary btn-lg" type="submit" value="Get Ticket" data-toggle="modal" data-target="#myModal"></b><br /><br />
+                    <b><input name="submit" class="btn btn-primary btn-lg" type="submit" value="Get Ticket"></b><br /><br />
                 </div>
                 </form>
             </div>
             
         </div>
-        <center><div>
-                <b>Your Access code: </b><?php echo $ticketCode; ?><br />
-                <b>Ticket obtained at: </b><?php echo $ticketCreated; ?><br />
-                <b>QueueID: </b><?php echo $ticketId, $ticketQueueId; ?><br />
+        
+        <div id="myModal" class="modal fade" role="dialog">
+          <div class="modal-dialog">
+        
+            <!-- Modal content-->
+            <div class="modal-content">
+              <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title" style="text-align:center;">Your Ticket</h4>
+              </div>
+              <div class="modal-body">
+                <center>
+                    <div>
+                        <b>Your Access code: </b><?php echo $ticketCode; ?><br />
+                        <b>Ticket obtained at: </b><?php echo $ticketCreated; ?><br />
+                        <b>QueueID: </b><?php echo $ticketId, $ticketQueueId; ?><br />
+                    </div>
+                    <a rel='nofollow' href='http://www.qrcode-generator.de' border='0' style='cursor:default'></a><img src='https://chart.googleapis.com/chart?cht=qr&chl=https%3A%2F%2Fnext-koderthecoder.c9users.io/index.php?accesscode=<?php echo $ticketCode; ?>&submit=Login%2F&chs=180x180&choe=UTF-8&chld=L|2' alt=''>
+                </center>
+              </div>
+              <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+              </div>
             </div>
-                <a rel='nofollow' href='http://www.qrcode-generator.de' border='0' style='cursor:default'></a><img src='https://chart.googleapis.com/chart?cht=qr&chl=https%3A%2F%2Fnext-koderthecoder.c9users.io/index.php?accesscode=<?php echo $ticketCode; ?>&submit=Login%2F&chs=180x180&choe=UTF-8&chld=L|2' alt=''>
-            </center>
+        
+          </div>
+        </div>
     </body>
 </html>
             <!--<form action="" method="post">
@@ -108,4 +142,13 @@ if($sqlquery->num_rows>0){
                 <b>Your Position: </b><?php echo $ticketId; ?><br />
                 <b>Ticket obtained at: </b><?php echo $ticketCreated; ?><br />
                 <b>QueueID: </b><?php echo $ticketId, $ticketQueueId; ?><br />
-            </div>-->
+            </div>
+            
+            <center>
+            <div>
+                <b>Your Access code: </b><?php echo $ticketCode; ?><br />
+                <b>Ticket obtained at: </b><?php echo $ticketCreated; ?><br />
+                <b>QueueID: </b><?php echo $ticketId, $ticketQueueId; ?><br />
+            </div>
+                <a rel='nofollow' href='http://www.qrcode-generator.de' border='0' style='cursor:default'></a><img src='https://chart.googleapis.com/chart?cht=qr&chl=https%3A%2F%2Fnext-koderthecoder.c9users.io/index.php?accesscode=<?php echo $ticketCode; ?>&submit=Login%2F&chs=180x180&choe=UTF-8&chld=L|2' alt=''>
+        </center>-->

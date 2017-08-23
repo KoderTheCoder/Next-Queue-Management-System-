@@ -31,24 +31,29 @@ if(isset($_SESSION['login_user'])){
 ?>
 <!DOCTYPE html>
 <html>
-    <head>
-        <title>Next Queue Tracker</title>
-        <link href="includes/mystyle.css" rel="stylesheet" type="text/css">
-    </head>
+    <?php include("includes/head.php");?>
     <body>
-        <div id="main">
-            <h1>Next Queue Tracker</h1>
-            <div id="login">
+        <div class="container">
+            <div class="header">
+                <div class="logo">
+                  <a href="#"><img src="images/logo.png"></a>
+                </div>
+            </div>
+            <div class="login">
                 <?php
                     if($error["accessCode"]){
                       $accesscodeclass = "has-error";
                     }
                 ?>
-                <form action="" method="GET" <?php echo $accesscodeclass;?>>
-                    <label>Access Code :</label>
-                    <input id="accesscode" name="accesscode" placeholder="access code" type="text">
-                        <input name="submit" type="submit" value="Login">
-                    <span><?php echo $error["accessCode"]; ?></span>
+                <form class="loginform"action="" method="GET" <?php echo $accesscodeclass;?>>
+                    <div class="form-group">
+                        <center><label>Access Code</label></center>
+                        <input class="form-control" name="accesscode" type="text">
+                        <span><?php echo $error["accessCode"]; ?></span>
+                    </div>
+                    <div class="text-center">
+                        <button class="btn btn-primary btn-block" name="submit" type="submit" value="Login">Login</button>
+                    </div>
                 </form>
             </div>
         </div>

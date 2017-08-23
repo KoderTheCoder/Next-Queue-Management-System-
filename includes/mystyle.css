@@ -67,6 +67,13 @@ p.bottomborder{
   align-items:top;
   justify-content:left;
 }
+.login{
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 70vh;
+}
 .logo{
   float: Left;
 }
@@ -145,4 +152,5 @@ td.td-center{
   .logo{margin-top: 0;}
   .container{width: 100%;}
   .logo img{height: 120px;}
+  .loginform{display: flex;flex-direction:column; justify-content:center; align-items: center;}
 }
