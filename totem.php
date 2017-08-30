@@ -45,6 +45,7 @@ if($sqlquery->num_rows>0){
         
         <script src="components/jquery/dist/jquery.js"></script>
         <script src="components/bootstrap/dist/js/bootstrap.js"></script>
+        <script src="includes/printThis.js"></script>
         <script type="text/javascript">
             $(document).ready(function(){
                 $("#myModal").modal('show');
@@ -107,14 +108,19 @@ if($sqlquery->num_rows>0){
                 <h4 class="modal-title" style="text-align:center;">Your Ticket</h4>
               </div>
               <div class="modal-body">
-                <center>
+                <center id="modalContent">
                     <div>
                         <b>Your Access code: </b><?php echo $ticketCode; ?><br />
-                        <b>Ticket obtained at: </b><?php echo $ticketCreated; ?><br />
                         <b>QueueID: </b><?php echo $ticketId, $ticketQueueId; ?><br />
                     </div>
-                    <a rel='nofollow' href='http://www.qrcode-generator.de' border='0' style='cursor:default'></a><img src='https://chart.googleapis.com/chart?cht=qr&chl=https%3A%2F%2Fnext-koderthecoder.c9users.io/index.php?accesscode=<?php echo $ticketCode; ?>&submit=Login%2F&chs=180x180&choe=UTF-8&chld=L|2' alt=''>
-                </center>
+                    <a rel='nofollow' border='0' style='cursor:default'></a><img src='https://chart.googleapis.com/chart?cht=qr&chl=https%3A%2F%2Fnext-koderthecoder.c9users.io/index.php?accesscode=<?php echo $ticketCode; ?>&submit=Login%2F&chs=180x180&choe=UTF-8&chld=L|2' alt=''>
+                    <p>Scan the QR code provided to view live queue stats and your position info or go to www.nextqueue.com and enter the access code provided</p>
+                    <b>Ticket obtained at: </b><?php echo $ticketCreated; ?><br />
+                    </center>
+                    <div>
+                        <center><button class="btn btn-primary" id="clickMe">Print</button></center>
+                    </div>
+                
               </div>
               <div class="modal-footer">
                 <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
@@ -123,6 +129,21 @@ if($sqlquery->num_rows>0){
         
           </div>
         </div>
+        <script>
+        document.getElementById("clickMe").onclick = function () {
+            $("#modalContent").printThis({ 
+                debug: false,              
+                importCSS: true,             
+                importStyle: true,         
+                printContainer: true,       
+                loadCSS: "includes/mystyle.css", 
+                pageTitle: "",             
+                removeInline: false,        
+                printDelay: 333,            
+                header: null,             
+                formValues: true          
+            }); };
+        </script>
     </body>
 </html>
             <!--<form action="" method="post">

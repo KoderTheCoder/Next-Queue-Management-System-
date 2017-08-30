@@ -7,9 +7,14 @@ if(isset($_POST['user'])){
     $user = $_POST['user'];
     $password = $_POST['password'];
     
-    $sqllogin = "SELECT * FROM users WHERE username='$user'";
+    $sqllogin = "SELECT * FROM users WHERE username=?";
     
-    $result = $connection->query($sqllogin);
+    //$result = $connection->query($sqllogin);
+    $statement = $connection->prepare($sqllogin);
+    $statement->bind_param("s", $user);
+    $statement->execute();
+    $result = $statement->get_result();
+    
     if($result->num_rows>0){
         $userdata = $result->fetch_assoc();
         //check if password matches the one in the database
@@ -38,12 +43,12 @@ if(isset($_POST['user'])){
 <html>
     <?php $page_title = "Login"; include("includes/head.php");?>
     <body>
-        <div class="header">
-            <div class="logo">
-                <img src="images/logo.png"></img>
-            </div>
-        </div>
         <div class="container">
+            <div class="header">
+                <div class="logo">
+                    <img src="images/logo.png"></img>
+                </div>
+            </div>
             <div clas="row">
                 <div class="col-md-4 col-md-offset-4">
                     <h2>Login into your account</h2>

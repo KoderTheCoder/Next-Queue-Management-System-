@@ -11,11 +11,15 @@ $accesscode = mysqli_real_escape_string($connection, $accesscode);
 
 $errors = array();
 
-$sql = mysqli_query($connection, "SELECT * FROM QUEUE WHERE ACCESS_CODE = '$accesscode'");
-$sqlrow = mysqli_fetch_assoc($sql);
-$rows = mysqli_num_rows($sql);
+$loginquery = "SELECT * FROM QUEUE WHERE ACCESS_CODE =?";
+$statement = $connection->prepare($loginquery);
+$statement->bind_param("i", $accesscode);
 
-if ($rows == 1 && $sqlrow['STATUS']!='finished') {
+$statement->execute();
+$result = $statement->get_result();
+$row = $result->fetch_assoc();
+
+if ($result->num_rows > 0 && $row['STATUS']!='finished') {
     $_SESSION['login_user'] = $accesscode; // Initializing Session
     $_SESSION['LAST_ACTIVITY'] = time();
     header("location: queueInfo.php");     // Redirecting To Other Page

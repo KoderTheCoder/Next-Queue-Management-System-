@@ -9,7 +9,6 @@
     session_unset();     // unset $_SESSION variable for the run-time 
     session_destroy();   // destroy session data in storage
 }
-
     
     
     $_SESSION['LAST_ACTIVITY'] = time(); // update last activity time stamp
@@ -36,6 +35,7 @@
     $row = mysqli_fetch_assoc($ses_sql);
     
     $position = $row['POSITION']; //Stores the amount of people ahead in the queue
+    $color = "green";
     $patronstatus = "You are now in line"; 
     
     if($positionstatus == 'waiting'){
@@ -44,7 +44,8 @@
         $holdcheck = true;
         $position = "ON HOLD";
         $positionoption = "Resume";
-        $patronstatus = "You are on hold at position: ";
+        $patronstatus = "YOU ARE ON HOLD";
+        $color = "red";
     }else if($positionstatus == 'active'){
         $activecheck = true;
         $positionoption = "Hold";
@@ -61,7 +62,8 @@
     //This code executes when the patron presses the hold/resume button
     if($_POST['hold'] && $positionstatus=="waiting"){
         $cancelQuery = mysqli_query($connection, "UPDATE QUEUE SET STATUS = 'hold' WHERE ID='$id'"); //Changes the status for this position
-        $patronstatus = "You are on hold at position: ";
+        $patronstatus = "YOU ARE ON HOLD";
+        $color = "red";
         $positionoption = "Resume";
         $holdcheck = true;
         $position = "ON HOLD";
@@ -71,6 +73,7 @@
         $holdcheck = false;
         $position = $row['POSITION'];
         $patronstatus = "You are now in line";
+        $color = "green";
     }
     
     //Check to make sure there is no missing data, otherwise log them out and end session
@@ -100,22 +103,30 @@
         </div>
       </div>
     </div>
-      <script language="javascript">
-          setTimeout(function(){
-              window.location.reload(1);
-            }, 7000);
-      </script>
+      <script>
+        setInterval(function() {
+                      var xhttp = new XMLHttpRequest();
+                      xhttp.onreadystatechange = function() {
+                          if (this.readyState == 4 && this.status == 200) {
+                              document.getElementById("position").innerHTML =
+                              this.responseText;
+                              if(this.responseText == "<p><b>People Ahead of You: </b>0</p>"){
+                                $(document).ready(function(){
+                                    $("#yourTurn").modal('show');
+                                });
+                              }
+                            }
+                      };
+                      xhttp.open("GET", "ajax/getPositionAjax.php", true);
+                      xhttp.send();
+        }, 10);
+</script>
       <div class="content">
-        <p class="bottomborder"><b><?php echo $patronstatus?></b> 
-        <?php if($holdcheck){
-          echo $position;
-        }else if($activecheck){
-          echo $queueid;
-        }?>
+        <p class="bottomborder" style="color:<?php echo $color;?>"><b><?php echo $patronstatus?></b>
           </p><br />
         <p class="bottomborder"><b>Your Queue Number:</b> <?php echo $queueNumber, $queueid; ?></p>
         <p class="bottomborder"></p><br />
-        <p><b>People Ahead of You: </b> <?php echo $position; ?> </p>
+        <div id="position"></div>
         <p><b>Expected Time: </b> NA</p><br />
         <p class="bottomborder"></p>
         <div class="flexcontainer">
@@ -130,12 +141,28 @@
         </div>
         <p class="bottomborder"></p>
         <p><b>Thank You For Your Patience</b></p>
-        <p><b>Last Updated:</b> <?php echo date("d-m-Y h:i:s", $time); ?></p>
-        <div>
-          <form action="queueInfo.php">
-            <input type="submit" name="reload" class="btn btn-primary" value="Reload">
-          </form>
-        </div><br />
+        <p><b>Last Updated:</b> <?php echo date("d-m-Y h:i:s", $time); ?></p><br />
       </div>
+      <!-- MODAL -->
+      <div id="yourTurn" class="modal fade" role="dialog">
+          <div class="modal-dialog">
+        
+            <!-- Modal content-->
+            <div class="modal-content">
+              <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title" style="text-align:center;">Your Turn</h4>
+              </div>
+              <div class="modal-body">
+                <center>
+                  <h3> Please Attend booth:</h3>
+                  <h1>5</h1>
+                </center>
+              </div>
+            </div>
+          </div>
+        
+          </div>
+        </div>
   </body>
 </html>
