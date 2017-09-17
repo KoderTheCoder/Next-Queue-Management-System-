@@ -108,8 +108,11 @@
                       var xhttp = new XMLHttpRequest();
                       xhttp.onreadystatechange = function() {
                           if (this.readyState == 4 && this.status == 200) {
+                            var obj = JSON.parse(this.responseText);
                               document.getElementById("position").innerHTML =
-                              this.responseText;
+                              obj.position;
+                              document.getElementById("wait").innerHTML =
+                              obj.wait;
                               if(this.responseText == "<p><b>People Ahead of You: </b>0</p>"){
                                 $(document).ready(function(){
                                     $("#yourTurn").modal('show');
@@ -127,7 +130,7 @@
         <p class="bottomborder"><b>Your Queue Number:</b> <?php echo $queueNumber, $queueid; ?></p>
         <p class="bottomborder"></p><br />
         <div id="position"></div>
-        <p><b>Expected Time: </b> NA</p><br />
+        <div id="wait"></div>
         <p class="bottomborder"></p>
         <div class="flexcontainer">
           <div class="buttoncontainer">

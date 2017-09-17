@@ -33,7 +33,7 @@ if($row['STATUS']=='active'){
 if($result->num_rows>0 && isset($_POST['next'])){
     $currenticketID = $row['ID'];
     $currentqueueID = $row['QUEUE_ID'];
-    $connection->query("UPDATE QUEUE SET STATUS = 'active', operator_id=$userId WHERE ID='$currenticketID';");
+    $connection->query("UPDATE QUEUE SET STATUS = 'active', operator_id=$userId, username='$username' WHERE ID='$currenticketID';");
     
     $sqlquery = "SELECT QUEUE.ID, QUEUE.QUEUE_ID FROM QUEUE INNER JOIN users ON QUEUE.QUEUE_ID = users.queue_id WHERE users.username = '$username' AND (QUEUE.STATUS = 'waiting') AND (QUEUE.operator_id IS NULL) LIMIT 1;";
     $result = $connection->query($sqlquery);
@@ -56,12 +56,12 @@ mysqli_close($connection);
 <html>
     <?php include("includes/head.php");?>
     <body>
-        <div class="container">
+        <div class="container" style="height:80%;">
             <?php include("includes/nav.php"); ?>
-            <div class="content">
+            <div class="content" style="height: 100%;display:flex; justify-content: center; align-items: center;">
                 <div class="contentbox">
-                    <p><b>Current Ticket: </b><?php echo $currenticketID, $currentqueueID;?> </p>
-                    <p><b>Next Ticket: </b><?php echo $nexticketID, $nextqueueID;?></p>
+                    <h1>Current Ticket: <b style="color:#006400;"><?php echo $currenticketID, $currentqueueID;?></b> </h1>
+                    <h3>Next Ticket:<b><?php echo $nexticketID, $nextqueueID;?></b></h3>
                 </div>
                 
                 <div class="flexcontainer">

@@ -58,7 +58,7 @@ if($sqlquery->num_rows>0){
                     <img class="totemlogo" src="images/logo.png">
                 </center>
             </div>
-            <div class="container">
+            <div class="container" style="margin-top: 60px;">
                 <div class="row rowcenter">
                     <div class="col-lg-12">
                     <form action="" method='POST'>
