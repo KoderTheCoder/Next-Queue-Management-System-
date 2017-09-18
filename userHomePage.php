@@ -12,7 +12,6 @@ else{
 }
 
 if(isset($_POST['finished'])){
-    echo "finished is true";
     $sqlupdate = "UPDATE QUEUE SET STATUS = 'finished' WHERE QUEUE_ID=(SELECT queue_id FROM users WHERE username='$username') AND STATUS='active' AND operator_id=$userId;";
     $result = $connection->query($sqlupdate);
 }
@@ -41,7 +40,6 @@ if($result->num_rows>0 && isset($_POST['next'])){
     $nexticketID = $row['ID'];
     $nextqueueID = $row['QUEUE_ID'];
 }else{
-    echo "success";
     $sqlquery = "SELECT QUEUE.ID, QUEUE.QUEUE_ID FROM QUEUE INNER JOIN users ON QUEUE.QUEUE_ID = users.queue_id WHERE users.username = '$username' AND QUEUE.STATUS = 'waiting' AND (QUEUE.operator_id IS NULL) LIMIT 1;";
     $result = $connection->query($sqlquery);
     $row = mysqli_fetch_assoc($result);

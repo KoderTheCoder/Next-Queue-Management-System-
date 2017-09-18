@@ -3,10 +3,19 @@ include('includes/database.php');
 session_start();
 $_SERVER['REQUEST_METHOD'] = 'POST';
 
+if(!isset($_SESSION['username']) || !isset($_SESSION['password'])){
+    header("Location: userLogout.php");
+}
+
 $queue_id1 = $_POST['queue_id'];
 if($queue_id1){
     
-    $sqlinsert = "INSERT INTO QUEUE (ID, ACCESS_CODE, CREATED, QUEUE_ID, STATUS) VALUES (NULL, RAND()*1000, NULL, '$queue_id1', 'waiting')";
+    do{
+        $randomNumber = rand(10,1000);
+        $result = mysqli_query($connection, "SELECT * FROM QUEUE WHERE ACCESS_CODE = $randomNumber");
+    }while($result->num_rows > 0);
+    
+    $sqlinsert = "INSERT INTO QUEUE (ID, ACCESS_CODE, CREATED, QUEUE_ID, STATUS) VALUES (NULL, $randomNumber, NULL, '$queue_id1', 'waiting')";
 
     if($connection->query($sqlinsert) === true){
         echo "Record successfully created";

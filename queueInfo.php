@@ -113,7 +113,10 @@
                               obj.position;
                               document.getElementById("wait").innerHTML =
                               obj.wait;
-                              if(this.responseText == "<p><b>People Ahead of You: </b>0</p>"){
+                              if(obj.status1 == "finished"){
+                                location.reload();
+                              }
+                              if(obj.position == "<p><b>People Ahead of You: </b>0</p>"){
                                 $(document).ready(function(){
                                     $("#yourTurn").modal('show');
                                 });

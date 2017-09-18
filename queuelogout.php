@@ -2,7 +2,7 @@
 session_start();
 if(session_destroy()) // Destroying All Sessions
 {
-    mysql_close($connection);
+    mysqli_close($connection);
     header("Location: index.php"); // Redirecting To Home Page
 }
 ?>
